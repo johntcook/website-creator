@@ -1,0 +1,388 @@
+<html>
+<head>
+<title>Web Site Designer - Web Application</title>
+<script language="JavaScript">
+
+/* global variables */
+
+posx = 0;
+posy = 0;
+xdivpos = 0;
+ydivpos = 0;
+divwth = 0;
+divhei = 0;
+num = 1;
+obnum2 = 1;
+
+/* When The Mouse Is Clicked */
+
+function point_it(event){
+var pos_x = event.offsetX?(event.offsetX):event.pageX-document.body.offsetLeft;
+var pos_y = event.offsetY?(event.offsetY):event.pageY-document.body.offsetTop;
+
+posx = pos_x;
+posy = pos_y;
+
+createDiv();
+}
+
+/* Create DIV TAGS to Hold Custom Content */
+
+function createDiv(){
+/* ADIV is the main DIV that the other DIV's are placed in */
+/* ADIV2 is the DIV that contains the delete button */
+/* BDiv is the DIV that allow for the object to be draggable */
+/* CDiv is the Div That Contains the module content */
+/* DDIV is the DIV that contains the resize button */
+/* EDIV is the DIV that contains the scalabale 10 by 10 box */
+
+
+/* IE Bug Fix */
+
+
+// First try the IE way; if this fails then use the standard way
+
+var cdiv = document.createElement("div");
+cdiv.setAttribute("name", "content");
+
+if (!cdiv) {
+cdiv = document.createElement('<div name="content">');
+}
+
+
+/* Define DIV's */
+var adiv = document.createElement("div");
+var adiv2 = document.createElement("div");
+var bdiv = document.createElement("div");
+var ddiv = document.createElement("div");
+var ediv = document.createElement("div");
+
+/* Define ID Variables */
+var divida = "div" + num;
+var divida2 = "divdelete" + num;
+var dividb = "divdrag" + num;
+var dividc = "divcontent" + num;
+var dividd = "divedit" + num;
+var divide = "divresize" + num;
+
+/* Set DIV Attributes */
+adiv.setAttribute("id",divida);
+adiv.setAttribute("name","posn");
+adiv2.setAttribute("id",divida2);
+bdiv.setAttribute("id",dividb);
+cdiv.setAttribute("id",dividc);
+ddiv.setAttribute("id",dividd);
+ediv.setAttribute("id",divide);
+
+
+/* Set DIV Styles */
+
+/* Set Styles for ADIV */
+adiv.style.position = "absolute";
+adiv.style.left = posx + "px";
+adiv.style.top = posy + "px";
+adiv.style.width = "100px";
+adiv.style.height = "200px";
+adiv.style.backgroundColor = "white";
+adiv.onclick = stopProp;
+
+/* Set Styles for ADIV2 */
+adiv2.style.position = "absolute";
+adiv2.style.right = "2px";
+adiv2.style.top = "2px";
+adiv2.style.zIndex = "12";
+adiv2.innerHTML = "<img src=\"images/module/cancel.gif\" />";
+adiv2.onmousedown = removeDiv2;
+
+/* Set Styles for BDIV */
+bdiv.style.position = "absolute";
+bdiv.style.top = "0px";
+bdiv.style.left = "0px";
+bdiv.style.width = "100%";
+bdiv.style.zIndex = "10";
+bdiv.innerHTML = "Section "+num+" ";
+bdiv.style.backgroundColor = "#CCCCCC";
+bdiv.className = "dragme";
+bdiv.onmousedown = selectmouse;
+bdiv.onmouseup = stopDrag;
+adiv.appendChild(bdiv);
+bdiv.appendChild(adiv2);
+
+/* Set Styles for CDIV */
+cdiv.style.position = "absolute";
+cdiv.style.top = "20px";
+cdiv.style.width = "100%";
+cdiv.style.height = "100%";
+cdiv.innerHTML = "<center><img src=\"images/module/insert.gif\" onmousedown=\"setotherhtml(\'"+num+"\');\" /></center>";
+cdiv.style.backgroundColor = "white";
+cdiv.style.borderTopColor = "black";
+cdiv.style.borderTopWidth = "100px";
+adiv.appendChild(cdiv);
+
+/* Set Styles for EDIV */
+ediv.style.position = "absolute";
+ediv.style.right = "0px";
+ediv.style.bottom = "-20px";
+ediv.innerHTML = "<center><font color=\"#FFFFFF\"><a href=\"#\" onmousedown=\"setotherhtml(\'"+num+"\');\" />Edit Content</a></font></center>";
+ediv.style.backgroundColor = "#CCCCCC";
+ediv.style.width = "100%";
+adiv.appendChild(ediv);
+
+/* Set Styles for DDIV */
+ddiv.style.position = "absolute";
+ddiv.style.width = "10px";
+ddiv.style.height = "10px";
+ddiv.style.right = "0px";
+ddiv.style.bottom = "-20px";
+ddiv.style.backgroundColor = "#000000";
+ddiv.className = "resizeme";
+ddiv.onmousedown=selectmouser;
+ddiv.onmouseup = stopResize;
+adiv.appendChild(ddiv);
+
+
+/* Add Div To Document */
+document.body.appendChild(adiv);
+
+/* Increment Num for the Next DIV ID */
+num = num + 1;
+
+}
+
+
+
+
+/* Content Editor */
+
+
+function setotherhtml(num) {
+
+obnum2 = num;
+
+var chdiv = document.createElement("div");
+var chdivid = "edit" + num;
+
+var bhdiv = document.createElement("div");
+var bhdivid = "draggable" + num;
+
+var chdiv2 = document.createElement("div");
+var chdiv2id = "chdivdelete" + num;
+
+var dhdiv = document.createElement("div");
+var dhdivid = "dhdiv" + num;
+
+var inchdiv = document.createElement("div");
+var inchdivid = "inchdiv" + num;
+
+
+chdiv.setAttribute("id",chdivid);
+chdiv.style.position = "absolute";
+chdiv.style.left = "100px";
+chdiv.style.top = "100px";
+chdiv.style.zIndex = "20";
+chdiv.style.width = "400px";
+chdiv.style.height = "350px";
+chdiv.style.backgroundColor = "white";
+chdiv.onclick = stopProp;
+
+
+bhdiv.setAttribute("id",bhdivid);
+bhdiv.style.position = "absolute";
+bhdiv.style.top = "0px";
+bhdiv.style.left = "0px";
+bhdiv.style.width = "100%";
+bhdiv.style.zIndex = "10";
+bhdiv.style.backgroundColor = "#CCCCCC";
+bhdiv.innerHTML = "<center>Section "+num+" Editor</center>";
+bhdiv.className = "dragme";
+bhdiv.onmousedown = selectmouse;
+bhdiv.onmouseup = stopDrag;
+chdiv.appendChild(bhdiv);
+
+chdiv2.setAttribute("id",chdiv2id);
+chdiv2.style.position = "absolute";
+chdiv2.style.right = "2px";
+chdiv2.style.top = "2px";
+chdiv2.style.zIndex = "12";
+chdiv2.innerHTML = "<img src=\"images/module/cancel.gif\" />";
+chdiv2.onmousedown = removeDiv2;
+bhdiv.appendChild(chdiv2);
+
+inchdiv.setAttribute("id",inchdivid);
+inchdiv.style.position = "absolute";
+inchdiv.style.left = "10px";
+inchdiv.style.top = "30px";
+inchdiv.style.width = "385px";
+inchdiv.style.height = "315px";
+inchdiv.innerHTML = "<iframe src=\"editorobjects.html\" width=\"380\" height=\"310\" name=\"edops\" frameborder=\"0\"></iframe>";
+chdiv.appendChild(inchdiv);
+
+
+document.body.appendChild(chdiv);
+
+stopProp();
+}
+
+
+
+/* Necessary Functions */
+
+
+
+/* When Red X is Pressed */
+
+function removeDiv(divRemove){
+var divToRemove = document.getElementById(divRemove);
+document.body.removeChild(divToRemove);
+}
+
+function removeDiv2() {
+var divwillremove = this.parentNode.parentNode;
+document.body.removeChild(divwillremove);
+stopProp();
+}
+
+
+
+/* In Order To Prevent Creation Of Unwanted DIV Tags */
+
+function stopProp(e) {
+	if (!e) var e = window.event;
+	e.cancelBubble = true;
+	if (event.stopPropagation) event.stopPropagation();
+}
+
+
+
+/* Change The Cursor When Dragging Objects */
+
+function showcursormove() {
+document.body.style.cursor='move';
+}
+
+function showregcursor() {
+document.body.style.cursor='auto';
+}
+
+function stopResize() {
+isresize = false;
+}
+
+function stopDrag() {
+isdrag = false;
+}
+
+</script>
+
+
+
+
+<style type="text/css">
+<!--
+.dragme{position:relative;}
+.resizeme{position:relative;}
+-->
+</style>
+
+
+<script type="text/javascript">
+var ie=document.all;
+var nn6=document.getElementById&&!document.all;
+var isdrag=false;
+var x,y;
+var dobj;
+
+
+function movemouse(e)
+{
+
+  if (isdrag)
+  {
+    dobj.style.left = nn6 ? tx + e.clientX - x : tx + event.clientX - x;
+    dobj.style.top = nn6 ? ty + e.clientY - y : ty + event.clientY - y;
+
+
+    return false;
+  }
+}
+
+function selectmouse(e)
+{
+  var fobj       = nn6 ? e.target : event.srcElement;
+  var topelement = nn6 ? "HTML" : "BODY";
+  while (fobj.tagName != topelement && fobj.className != "dragme")
+  {
+    fobj = nn6 ? fobj.parentNode : fobj.parentElement;
+  }
+  if (fobj.className=="dragme")
+  {
+    isdrag = true;
+    dobj = fobj.parentNode;
+    tx = parseInt(dobj.style.left+0,10);
+    ty = parseInt(dobj.style.top+0,10);
+    x = nn6 ? e.clientX : event.clientX;
+    y = nn6 ? e.clientY : event.clientY;
+    document.onmousemove=movemouse;
+    return false;
+  }
+}
+//  End -->
+</script>
+
+
+
+<script type="text/javascript">
+
+/* Resize DIV */
+var ie=document.all;
+var nn6=document.getElementById&&!document.all;
+var isresize=false;
+var rx,ry;
+var rdobj;
+
+function movemouser(e)
+{
+  if (isresize)
+  {
+    rdobj.style.width = nn6 ? rtx + e.clientX - rx : rtx + event.clientX - rx;
+    rdobj.style.height = nn6 ? rty + e.clientY - ry : rty + event.clientY - ry;
+
+    return false;
+  }
+	stopProp();
+}
+
+function selectmouser(e)
+{
+  var rfobj       = nn6 ? e.target : event.srcElement;
+  var topelement = nn6 ? "HTML" : "BODY";
+  while (rfobj.tagName != topelement && rfobj.className != "resizeme")
+  {
+    rfobj = nn6 ? rfobj.parentNode : rfobj.parentElement;
+  }
+  if (rfobj.className=="resizeme")
+  {
+    isresize = true;
+    rdobj = nn6 ? rfobj.parentNode : rfobj.parentElement;
+
+    rtx = parseInt(rdobj.style.width);
+    rty = parseInt(rdobj.style.height);
+
+    rx = nn6 ? e.clientX : event.clientX;
+    ry = nn6 ? e.clientY : event.clientY;
+    document.onmousemove = movemouser;
+    return false;
+  }
+	stopProp();
+}
+
+//  End -->
+</script>
+
+
+
+
+</head>
+<body background="images/grid.gif" onClick="point_it(event);">
+</body>
+</html>

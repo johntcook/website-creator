@@ -1,0 +1,26 @@
+<html>
+<head>
+<script type="text/JavaScript">
+
+/* variables */
+
+var obnum = parent.obnum2;
+
+/* functions */
+
+/* submit form */
+
+function submitform() {
+var textform = edops.document.getElementById("textar").value;
+
+var ttwc = parent.document.getElementById("divcontent" + obnum);
+ttwc.innerHTML = textform;
+}
+</script>
+</head>
+<body>
+<div id="eomainc">
+<iframe src="editorobjects2.html" width="335" height="300" name="edops" frameborder="0"></iframe>
+</div>
+</body>
+</html>

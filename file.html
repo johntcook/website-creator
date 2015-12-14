@@ -1,0 +1,295 @@
+<html>
+<head>
+
+<script type="text/JavaScript">
+
+function publishfile() {
+
+var nfn = 1;
+createxml(nfn);
+
+nfn = 2;
+createxml(nfn);
+
+}
+
+/* Begin Save XML Function */
+function createxml(nfn) {
+
+
+/* Get Divs In Main Document */
+var ndivs = top.frames['fmainz'].document.getElementsByTagName('div');
+var nnds = ndivs.length / 6;
+
+
+/* Set Loop Variable */
+var etim = 0;
+
+
+/* Set txt2 to Saving File */
+var sfilen = document.getElementById('txt2');
+sfilen.innerHTML = "Saving File";
+
+
+/* Run Function passd1 */
+/* This will Save The Top Part Of The XML File */
+passd1(nfn);
+
+
+/* Run While Loop To Save Each Individual Module */
+while (etim < nnds)
+{
+passd2(etim, nfn);
+etim++;
+}
+
+/* Run Third Function That Closes XML File */
+passd3(nfn);
+}
+
+
+/* Function That Forces Script To Wait For .1 Seconds */
+function wate()
+{
+var date = new Date();
+var curDate = null;
+
+do { curDate = new Date(); }
+while(curDate-date < 100);
+}
+
+
+/* First Data Transfer Function */
+/* Create XML File and Add XML tag and Doc Element */
+
+function passd1(nfn) {
+
+var tpez;
+
+if (nfn==2) {
+tpez = 'filesavew.php';
+}
+else
+{
+tpez = 'scriptsavew.php';
+}
+
+
+/* Get File Name */
+var gfilen = document.getElementById('txt1').value;
+
+/* Version */
+var gversion = 1;
+
+/* Create String To Send */
+var passData2 = "file="+escape(gfilen)+"&version="+escape(gversion);
+
+
+
+/* Define AJAX2 Variable */
+var AJAX2 = null;
+
+/* Create XMLHttpRequest */
+if (window.XMLHttpRequest) {
+AJAX2=new XMLHttpRequest();
+}
+else
+{
+AJAX2=new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+
+/* Send Data */
+if (AJAX2==null)
+{
+alert("Your browser doesn't support AJAX.");
+return false
+}
+else
+{
+/* Post To File */
+AJAX2.open("POST", tpez, true);
+
+/* Send Headers */
+AJAX2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+/* Send AJAX Data */
+AJAX2.send(passData2);
+
+/* Wait for 100 Milliseconds */
+wate();
+}
+}
+
+
+/* Write Section Data */
+
+
+
+function passd2(etim, nfn) {
+
+
+var tpez;
+
+if (nfn==2) {
+tpez = 'filesave.php';
+}
+else
+{
+tpez = 'scriptsave.php';
+}
+
+
+/* Get Number Of Current Element To Save */
+var curv = etim;
+
+/* Get Array Position of the Main Element */
+var adivz = curv * 6;
+
+/* Get Elements */
+var mdivz = top.frames['fmainz'].document.getElementsByTagName('div');
+
+/* Get Position of Content Div */
+var ndivz = adivz + 3;
+
+/* Get File Name */
+var gfilen = document.getElementById('txt1').value;
+
+/* Version */
+var gversion = 1;
+
+var gcwidth = mdivz[adivz].style.width;
+var gcheight = mdivz[adivz].style.height;
+var gcposx = mdivz[adivz].style.left;
+var gcposy = mdivz[adivz].style.top;
+var ghtmlc = mdivz[ndivz].innerHTML;
+
+
+/* Initiate AJAX */
+
+/* Create String To Send */
+var passData = "file="+escape(gfilen)+"&version="+escape(gversion)+"&width="+escape(gcwidth)+"&height="+escape(gcheight)+"&posx="+escape(gcposx)+"&posy="+escape(gcposy)+"&html="+escape(ghtmlc);
+
+/* Set AJAX Variable To NULL */
+var AJAX = null;
+
+/* Create XMLHttpRequest */
+if (window.XMLHttpRequest) {
+AJAX=new XMLHttpRequest();
+}
+else
+{
+AJAX=new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+/* Send Data */
+if (AJAX==null) {
+alert("Your browser doesn't support AJAX.");
+return false
+}
+else
+{
+AJAX.open("POST", tpez, true);
+AJAX.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+AJAX.send(passData);
+
+/* Wait for 100 Milliseconds */
+wate();
+
+}
+}
+
+
+/* Close XML File */
+function passd3(nfn) {
+
+var tpez;
+
+if (nfn==2) {
+tpez = 'filesavex.php';
+}
+else
+{
+tpez = 'scriptsavex.php';
+}
+
+/* Get File Name */
+var gfilen = document.getElementById('txt1').value;
+
+/* Version */
+var gversion = 1;
+
+/* Create String To Send */
+var passData3 = "file="+escape(gfilen)+"&version="+escape(gversion);
+
+/* Set AJAX 3 Variable To NULL */
+var AJAX3 = null;
+
+/* Create XMLHttpRequest Variable */
+if (window.XMLHttpRequest) {
+AJAX3=new XMLHttpRequest();
+}
+else
+{
+AJAX3=new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+/* Send AJAX Data */
+if (AJAX3==null) {
+alert("Your browser doesn't support AJAX.");
+return false
+}
+else
+{
+AJAX3.open("POST", tpez, true);
+AJAX3.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+AJAX3.send(passData3);
+
+/* Wait for 500 Milliseconds */
+wate();
+}
+}
+
+</script>
+
+<style type="text/css">
+<!--
+#title {
+top: 0px;
+width: 100%;
+height: 20px;
+background-color: #000000;
+}
+.titletext {
+color: #FFFFFF;
+}
+.style1 {color: #000000}
+.style6 {font-size: 18px; font-weight: bold; }
+-->
+</style>
+
+</head>
+<body>
+
+<center><div id="title"><strong><span class="titletext">Save File</span></div></strong></div></center>
+<br />
+<strong>File Name:</strong>
+<form>
+<br />
+<center>
+<input type="text" id="txt1" size="17">.html
+<br />
+<br />
+<button onclick="publishfile()">Save</button>
+</center>
+
+<br />
+<br />
+
+<div id="txt2"> </div>
+
+</form>
+</body>
+</html>
